@@ -76,14 +76,20 @@ app.get('/word', async function(req,res) {
     const request = req.body;
     console.log(request)
     const output = {}
-    if (!request.length || request.length < 1) res.status(400);
-    request.forEach(item => {
-        try {
-            output[item.word] = file.find(cbras => cbras.word.toLowerCase() == cbras.word.toLowerCase()).rate;
-        } catch {
-        }
+    fs.readFile('./cbras-lightweight.csv', 'latin1', (err, data) => {
+        if (!request.length || request.length < 1) res.status(400);
+        const lines = data.split('\n');
+        request.forEach(item => {
+            try {
+                const index = lines.findIndex(localItem => localItem.toLowerCase().includes(item.word.toLowerCase()));
+                const line = lines[index].split(',');
+                output[item.word] = parseInt(line[1]);
+            } catch(exc) {
+                console.log(exc)
+            }
+        });
+        res.json(output) 
     });
-    res.json(output)
 })
 
 // app.post('/word', async function (req,res) {
