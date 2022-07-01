@@ -6,7 +6,6 @@ const fs = require('fs');
 const cors = require('cors');
 const { workerData } = require('worker_threads');
 require('dotenv').config();
-const file = require("../cbras-usage.json");
 
 
 // async function connect() {
