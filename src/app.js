@@ -14,7 +14,7 @@ async function connect() {
 
     const { Pool } = require('pg');
     const pool = new Pool({
-        connectionString: 'postgres://fyazuind:r34WG7VcdfJvN4WplbWYHEk-hfyYELv1@isilo.db.elephantsql.com:5432/fyazuind'
+        connectionString: process.env.DATABASE_URL
     });
 
     //apenas testando a conexão
@@ -38,7 +38,7 @@ async function connect() {
     const { Pool } = require('pg');
     const pool = new Pool({
         user: process.env.USER,
-        host: process.env.URI,
+        host: process.env.HOST,
         database: process.env.DATABASE,
         password: process.env.PASSWORD,
         port: process.env.DB_PORT,
