@@ -69,9 +69,8 @@ app.get('/', async function (req,res) {
     res.send("Yup!");
 });
 
-app.post('/word', async function (req,res) {
+app.get('/word', async function (req, res) {
     // Creating the select statement
-    const request = req.body;
     let queryString = 'SELECT * FROM words where word in ('
     req.body.forEach(item => {
         queryString += `\'${item.word}\',`
@@ -84,25 +83,5 @@ app.post('/word', async function (req,res) {
 
     res.json(query.rows);
 });
-
-app.post('/word_insert_load', async function (req, res) {
-    const db = await connect();
-    if (!req.body.word || !req.body.rate) res.status(400);
-    const words = require("../cbras-usage.json");
-    let queryString = `INSERT INTO words (word, rate) VALUES `;
-
-    for (let i = 0; i < words.length-1; i++) {
-        queryString += `(\'${words[i].word}\', \'${words[i].rate}\'), `
-    }
-    queryString += `(\'${words[words.length-1].word}\', \'${words[words.length-1].rate}\');`;
-
-    const db_response = await db.query(queryString);
-    
-    if (db_response.rowCount > 0) res.status(200);
-    else res.status(500);
-    res.send('Successful!')
-})
-
-app.post
 
 module.exports = app;
